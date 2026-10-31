@@ -1,0 +1,108 @@
+// Preset scenarios: one prompt for every model, plus a checklist of concrete, visible requirements
+// used to score instruction following. Each targets something image models still get wrong:
+// exact text, counting, left/right, clock faces, hands, reflections, and non-Latin script.
+
+export const SCENARIOS = [
+  {
+    id: 'storefront',
+    title: 'Storefront sign: exact text',
+    aspect: '3:2',
+    prompt: 'A photorealistic street photo of a small bakery storefront on a rainy night. Above the door, a pink neon sign reads "LUNA BAKERY". In the window, a chalkboard reads "Croissants $3" in white chalk. Exactly one orange tabby cat sits on the inside windowsill. Warm light spills onto wet cobblestones that reflect the neon.',
+    checks: [
+      'The neon sign reads exactly "LUNA BAKERY"',
+      'The neon sign is pink',
+      'A chalkboard reads exactly "Croissants $3"',
+      'There is exactly one cat, and it is an orange tabby',
+      'The cat sits on the windowsill, inside the window',
+      'It is night and the street is wet, with neon reflections',
+      'The image looks like a real photograph',
+    ],
+  },
+  {
+    id: 'counting',
+    title: 'Counting and left / right',
+    aspect: '1:1',
+    prompt: 'Top-down photo of a light oak table. On the left side, exactly three red apples. On the right side, exactly two green pears. In the center, a blue ceramic bowl holding exactly five walnuts. A folded yellow napkin lies at the bottom edge of the frame. Soft daylight, no other objects.',
+    checks: [
+      'Exactly three red apples, all on the left side',
+      'Exactly two green pears, all on the right side',
+      'A blue ceramic bowl in the center',
+      'Exactly five walnuts in the bowl',
+      'A folded yellow napkin at the bottom edge',
+      'Shot from directly above (top-down)',
+      'No other objects on the table',
+    ],
+  },
+  {
+    id: 'clock',
+    title: 'Clock, mirror, and reflection',
+    aspect: '3:4',
+    prompt: 'A minimalist living room corner. A round wall clock with black hands and Roman numerals shows exactly 3:15. Below it, a tall rectangular mirror leans against a sage-green wall. A closed red umbrella stands in front of the mirror, and its reflection is visible in the mirror. A small potted cactus sits on the floor to the right of the umbrella.',
+    checks: [
+      'The clock shows 3:15 (hour hand just past 3, minute hand on 3)',
+      'The clock uses Roman numerals',
+      'The wall is sage green',
+      'The umbrella is red and closed',
+      'The umbrella\'s reflection appears correctly in the mirror',
+      'A potted cactus is on the floor to the right of the umbrella',
+    ],
+  },
+  {
+    id: 'product',
+    title: 'Product shot for an ad',
+    aspect: '4:3',
+    prompt: 'Studio product photograph of a matte black wireless earbud case with its lid open, showing two white earbuds inside. The word "AERO" is embossed on the front of the case. It sits on a terracotta cylinder pedestal against a seamless beige background. Soft key light from the upper left with a gentle shadow to the lower right. Leave empty space on the right third for ad copy.',
+    checks: [
+      'The case is matte black and the lid is open',
+      'Exactly two white earbuds are visible inside',
+      '"AERO" is embossed on the case, spelled correctly',
+      'The case sits on a terracotta cylinder pedestal',
+      'Seamless beige background',
+      'Light from the upper left, shadow falling to the lower right',
+      'The right third of the frame is mostly empty',
+    ],
+  },
+  {
+    id: 'infographic',
+    title: 'Labeled infographic',
+    aspect: '2:3',
+    prompt: 'A clean flat-design educational poster titled "THE WATER CYCLE" at the top. Four stages arranged in a clockwise loop with arrows between them, each labeled: "Evaporation", "Condensation", "Precipitation", "Collection". A yellow sun in the top left corner, a cloud at the top right, a blue lake at the bottom. White background, navy text, no other words.',
+    checks: [
+      'The title reads exactly "THE WATER CYCLE"',
+      'All four labels are present and spelled correctly',
+      'The stages connect with arrows in a clockwise loop',
+      'A yellow sun in the top left corner',
+      'A cloud at the top right and a lake at the bottom',
+      'Flat design on a white background with navy text',
+      'No extra or garbled words',
+    ],
+  },
+  {
+    id: 'portrait',
+    title: 'Portrait: hands and detail',
+    aspect: '3:4',
+    prompt: 'Close-up environmental portrait of an elderly fisherman with a short white beard and deep wrinkles, wearing a yellow raincoat. He holds a coiled rope in his left hand and raises his right hand in a wave, all five fingers spread. Overcast harbor with blurred fishing boats behind him, shallow depth of field, shot on an 85mm lens.',
+    checks: [
+      'An elderly man with a short white beard',
+      'He wears a yellow raincoat',
+      'He holds a coiled rope in his left hand',
+      'His right hand is raised in a wave with five fingers',
+      'Hands look anatomically correct',
+      'Blurred harbor and boats in the background',
+    ],
+  },
+  {
+    id: 'zh_poster',
+    title: 'Chinese poster: Hanzi text',
+    aspect: '9:16',
+    prompt: '一张竖版春节促销海报，红色和金色为主色调。顶部是大号金色书法字「新春快乐」，中间是一只红灯笼和几枝梅花，底部是白色粗体字「全场八折」以及小字「1月20日至2月5日」。整体喜庆、干净，不要出现其他文字。',
+    checks: [
+      'Large gold calligraphy at the top reads exactly 「新春快乐」',
+      'Bold white text at the bottom reads exactly 「全场八折」',
+      'Small text reads 「1月20日至2月5日」',
+      'A red lantern and plum blossoms in the middle',
+      'Red and gold color scheme',
+      'No other or garbled characters',
+    ],
+  },
+];

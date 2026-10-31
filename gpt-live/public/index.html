@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT-Live demo</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='9' width='4' height='8' rx='2' fill='%23D9480F'/%3E%3Crect x='10' y='5' width='4' height='14' rx='2' fill='%23D9480F'/%3E%3Crect x='17' y='13' width='4' height='14' rx='2' fill='%231D4ED8'/%3E%3Crect x='23' y='16' width='4' height='8' rx='2' fill='%231D4ED8'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>if (self !== top) document.documentElement.classList.add('embedded'); // inside the DemoBox hub</script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a class="home" id="home" href="http://localhost:8000/" title="Back to all demos">← DemoBox</a>
+      <h1>GPT-Live</h1>
+      <p class="tagline" data-i18n="brand.tagline">Full-duplex voice on Azure OpenAI</p>
+    </div>
+
+    <dl class="config" id="config">
+      <div><dt data-i18n="cfg.endpoint">Endpoint</dt><dd id="cfgHost">…</dd></div>
+      <div><dt data-i18n="cfg.model">Voice model</dt><dd id="cfgModel">…</dd></div>
+      <div><dt data-i18n="cfg.backend">Backend</dt><dd id="cfgBackend">…</dd></div>
+    </dl>
+
+    <div class="status" id="status" data-state="idle" role="status" aria-live="polite">
+      <span class="dot" aria-hidden="true"></span><span id="statusText">Checking setup</span>
+    </div>
+
+    <select id="lang" class="lang" data-i18n-aria="lang.label" aria-label="Interface language"></select>
+  </header>
+
+  <main class="layout">
+    <section class="stage" aria-labelledby="stageTitle">
+      <h2 id="stageTitle" class="visually-hidden" data-i18n="stage.title">Live timeline</h2>
+      <div class="lanes">
+        <div class="lane-labels" aria-hidden="true">
+          <div class="lane-label you"><span class="swatch"></span><span><b data-i18n="lane.you">You</b><small data-i18n="lane.mic">microphone</small></span></div>
+          <div class="lane-label live"><span class="swatch"></span><span><b data-i18n="lane.live">GPT-Live</b><small id="laneVoice">voice</small></span></div>
+          <div class="lane-label backend"><span class="swatch"></span><span><b data-i18n="lane.backend">Backend</b><small id="laneBackend">delegated work</small></span></div>
+          <div class="lane-axis"></div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="timeline" data-i18n-aria="stage.canvas" aria-label="Scrolling timeline of your voice, GPT-Live's voice and backend work"></canvas>
+          <p class="stage-hint" id="stageHint" data-i18n="stage.hint">
+            Start a conversation, then talk over it. Both voices land on this timeline,
+            so you can see GPT-Live keep listening while it speaks.
+          </p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn" class="btn primary" disabled>Start conversation</button>
+        <button id="muteBtn" class="btn" disabled aria-pressed="false">Mute mic</button>
+        <div class="meter">
+          <span class="clock" id="clock" data-i18n-aria="clock.label" aria-label="Session time">0:00</span>
+          <span class="usage" id="usage"></span>
+        </div>
+      </div>
+      <p id="notice" class="notice" role="alert" hidden></p>
+    </section>
+
+    <section class="conversation" aria-labelledby="convTitle">
+      <h2 id="convTitle" data-i18n="conv.title">Conversation</h2>
+      <ol id="transcript" class="transcript"></ol>
+      <p class="empty" id="transcriptEmpty" data-i18n="conv.empty">What you say and what GPT-Live says appear here as the session runs.</p>
+    </section>
+
+    <aside class="side">
+      <section class="panel" aria-labelledby="setupTitle">
+        <h2 id="setupTitle" data-i18n="setup.title">Session</h2>
+        <form id="setup" class="setup">
+          <label>
+            <span data-i18n="setup.voice">Voice</span>
+            <select id="voice"></select>
+          </label>
+          <label>
+            <span data-i18n="setup.connection">Connection</span>
+            <select id="transport">
+              <option value="webrtc" data-i18n="setup.webrtc">WebRTC (recommended)</option>
+              <option value="websocket" data-i18n="setup.websocket">WebSocket relay</option>
+            </select>
+          </label>
+          <label class="wide">
+            <span data-i18n="setup.instructions">Instructions for GPT-Live</span>
+            <textarea id="instructions" rows="4" spellcheck="false"></textarea>
+          </label>
+          <button type="button" class="link" id="resetInstructions" data-i18n="setup.reset">Restore default instructions</button>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="backendTitle">
+        <h2 id="backendTitle" data-i18n="backend.title">Backend activity</h2>
+        <ol id="activity" class="activity"></ol>
+        <p class="empty" id="activityEmpty" data-i18n="backend.empty">When GPT-Live hands a question to the backend model, the reasoning and tool calls show up here. Try asking for the weather in Shanghai.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="injectTitle">
+        <h2 id="injectTitle" data-i18n="inject.title">Add context mid-call</h2>
+        <form id="inject" class="inject">
+          <textarea id="injectText" rows="2" data-i18n-placeholder="inject.placeholder" placeholder="The caller is a Gold member flying to Singapore tomorrow." disabled></textarea>
+          <div class="inject-row">
+            <select id="injectKind" disabled data-i18n-aria="inject.kindLabel" aria-label="How GPT-Live should use it">
+              <option value="thinking" data-i18n="inject.thinking">Know it quietly</option>
+              <option value="commentary" data-i18n="inject.commentary">Say it aloud</option>
+              <option value="instructions" data-i18n="inject.instructions">Follow it as an instruction</option>
+            </select>
+            <button class="btn" id="injectBtn" disabled data-i18n="inject.send">Send to GPT-Live</button>
+          </div>
+          <p class="inject-status" id="injectStatus" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <details class="panel log">
+        <summary><h2 data-i18n="log.title">Event log</h2><span id="logCount" class="log-count"></span></summary>
+        <pre id="log" class="log-body"></pre>
+      </details>
+    </aside>
+  </main>
+
+  <audio id="remoteAudio" autoplay playsinline></audio>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DemoBox</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='11' height='11' rx='3' fill='%23D9480F'/%3E%3Crect x='17' y='4' width='11' height='11' rx='3' fill='%231D4ED8'/%3E%3Crect x='4' y='17' width='11' height='11' rx='3' fill='%232E7D4F'/%3E%3Crect x='17' y='17' width='11' height='11' rx='3' fill='%23B4237A'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="4" y="4" width="11" height="11" rx="3" fill="#D9480F"/>
+          <rect x="17" y="4" width="11" height="11" rx="3" fill="#1D4ED8"/>
+          <rect x="4" y="17" width="11" height="11" rx="3" fill="#2E7D4F"/>
+          <rect x="17" y="17" width="11" height="11" rx="3" fill="#B4237A"/>
+        </svg>
+        <div>
+          <h1>DemoBox</h1>
+          <p class="tagline" data-i18n="brand.tagline">Live demos of AI services</p>
+        </div>
+      </div>
+
+      <nav class="nav" data-i18n-aria="nav.label" aria-label="Microsoft Foundry Demos">
+        <p class="side-label" data-i18n="nav.label">Microsoft Foundry Demos</p>
+        <ul id="demos"></ul>
+      </nav>
+
+      <div class="side-foot">
+        <details class="add">
+          <summary data-i18n="add.title">Add a demo</summary>
+          <p data-i18n-html="add.body"></p>
+        </details>
+        <select id="lang" class="lang" data-i18n-aria="lang.label" aria-label="Interface language"></select>
+      </div>
+    </aside>
+
+    <main class="main">
+      <p id="notice" class="notice" role="alert" hidden></p>
+      <header id="bar" class="bar" aria-live="polite"></header>
+      <div id="stage" class="stage">
+        <div id="empty" class="empty" hidden></div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

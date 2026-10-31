@@ -1,0 +1,22 @@
+# Secrets: every .env variant; keep the committed templates
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Local tool state (browser QA logs, personal Claude Code settings)
+.gstack/
+.claude/settings.local.json

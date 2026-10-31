@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web IQ</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='14' cy='14' r='9' fill='none' stroke='%231D4ED8' stroke-width='4'/%3E%3Cpath d='M21 21l7 7' stroke='%231D4ED8' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>if (self !== top) document.documentElement.classList.add('embedded'); // inside the DemoBox hub</script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a class="home" id="home" href="http://localhost:8000/" title="Back to all demos" data-i18n-title="home.title">← DemoBox</a>
+      <h1 data-i18n="doc.title">Web IQ</h1>
+      <p class="tagline" data-i18n="brand.tagline">Web grounding for AI: Microsoft Web IQ against the leading search APIs</p>
+    </div>
+    <p class="model-chip" id="modelChip"></p>
+    <select id="lang" class="lang" aria-label="Interface language" data-i18n-aria="lang.label"></select>
+  </header>
+
+  <main class="layout">
+    <section class="editor" aria-labelledby="editorTitle">
+      <div class="editor-head">
+        <h2 id="editorTitle" data-i18n="editor.title">Question</h2>
+        <select id="preset" aria-label="Load a scenario" data-i18n-aria="preset.label"></select>
+      </div>
+
+      <label class="field">
+        <span data-i18n="query.label">Question or search query</span>
+        <textarea id="query" rows="4"></textarea>
+      </label>
+
+      <div class="settings">
+        <div class="field">
+          <span data-i18n="topic.label">Search</span>
+          <div class="seg" role="radiogroup" aria-label="Search" data-i18n-aria="topic.label">
+            <label><input type="radio" name="topic" value="web" checked><span data-i18n="topic.web">Web</span></label>
+            <label><input type="radio" name="topic" value="news"><span data-i18n="topic.news">News</span></label>
+          </div>
+        </div>
+        <label class="field">
+          <span data-i18n="market.label">Market</span>
+          <select id="market"></select>
+        </label>
+        <label class="field">
+          <span data-i18n="count.label">Results</span>
+          <select id="count">
+            <option value="3">3</option>
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+          </select>
+        </label>
+        <label class="field">
+          <span data-i18n="chars.label">Content per result</span>
+          <select id="chars">
+            <option value="500">500</option>
+            <option value="1000">1,000</option>
+            <option value="2000" selected>2,000</option>
+            <option value="4000">4,000</option>
+          </select>
+        </label>
+      </div>
+      <p class="hint muted" data-i18n="settings.hint">Every service gets the same query, result count, and content budget (characters per result, where the API has one).</p>
+
+      <fieldset class="lanes-pick">
+        <legend data-i18n="lanes.label">Compare</legend>
+        <div id="picks" class="picks"></div>
+      </fieldset>
+
+      <label class="field judge-field">
+        <span data-i18n="judge.label">Relevance judge</span>
+        <select id="judge"></select>
+        <small class="muted" data-i18n="judge.hint">Grades every result 0–3 without being told which service returned it.</small>
+      </label>
+
+      <div class="run-row">
+        <button id="runBtn" class="btn primary" disabled data-i18n="btn.run">Search all</button>
+        <button id="speedBtn" class="btn" disabled data-i18n="btn.speed">Speed test</button>
+      </div>
+      <p id="notice" class="notice" role="alert" hidden></p>
+    </section>
+
+    <section class="results-wrap" aria-labelledby="resultsTitle">
+      <div class="results-head">
+        <h2 id="resultsTitle" data-i18n="results.title">Results</h2>
+        <p class="legend" data-i18n-html="results.legend">Times are measured on this server. <b>Relevance</b> is graded per result by a judge model that isn't told which service returned it. Click a column to sort.</p>
+      </div>
+
+      <div id="board" class="board" hidden></div>
+
+      <section id="speedSection" class="speed" hidden aria-labelledby="speedTitle">
+        <div class="speed-head">
+          <h2 id="speedTitle" data-i18n="speed.title">Speed test</h2>
+          <p class="legend" id="speedLegend"></p>
+        </div>
+        <div id="speed" class="speed-chart"></div>
+      </section>
+
+      <div id="lanes" class="lanes" hidden></div>
+      <p class="empty" id="resultsEmpty" data-i18n-html="results.empty">Pick a question and press <b>Search all</b>. Every service gets the same query in parallel; a judge model that isn't told the source then grades every result.</p>
+
+      <section class="protocol" id="protocolSection" aria-labelledby="protocolTitle" hidden>
+        <h2 id="protocolTitle" data-i18n="protocol.title">On the wire</h2>
+        <div id="protocol" class="protocol-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image models</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='12' height='12' rx='3' fill='%23127A5B'/%3E%3Crect x='17' y='3' width='12' height='12' rx='3' fill='%23B4237A'/%3E%3Crect x='3' y='17' width='12' height='12' rx='3' fill='%231D4ED8'/%3E%3Crect x='17' y='17' width='12' height='12' rx='3' fill='%236D28D9'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>if (self !== top) document.documentElement.classList.add('embedded'); // inside the DemoBox hub</script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a class="home" id="home" href="http://localhost:8000/" title="Back to all demos" data-i18n-title="home.title">← DemoBox</a>
+      <h1 data-i18n="doc.title">Image models</h1>
+      <p class="tagline" data-i18n="brand.tagline">Same prompt, four image models: speed, quality, and instruction following</p>
+    </div>
+    <ul class="providers" id="providers" aria-label="Models" data-i18n-aria="providers.label"></ul>
+    <select id="lang" class="lang" aria-label="Interface language" data-i18n-aria="lang.label"></select>
+  </header>
+
+  <main class="layout">
+    <section class="editor" aria-labelledby="editorTitle">
+      <div class="editor-head">
+        <h2 id="editorTitle" data-i18n="editor.title">Prompt</h2>
+        <select id="preset" aria-label="Load a scenario" data-i18n-aria="preset.label"></select>
+      </div>
+
+      <label class="field">
+        <span data-i18n="prompt.label">Prompt</span>
+        <textarea id="prompt" rows="7"></textarea>
+      </label>
+
+      <label class="field checks-field">
+        <span><span data-i18n="checks.label">Checklist</span> <small data-i18n="checks.hint">one requirement per line, scored per image</small></span>
+        <textarea id="checks" rows="6"></textarea>
+      </label>
+
+      <div class="settings">
+        <label class="field">
+          <span data-i18n="aspect.label">Aspect ratio</span>
+          <select id="aspect"></select>
+        </label>
+        <label class="field">
+          <span data-i18n="size.label">Resolution</span>
+          <select id="size">
+            <option value="standard" data-i18n="size.standard">Standard · ~1 MP</option>
+            <option value="large" data-i18n="size.large">Large · ~2.4 MP</option>
+          </select>
+        </label>
+        <label class="field">
+          <span><span data-i18n="quality.label">Quality</span> <small data-i18n="quality.hint">GPT-Image only</small></span>
+          <select id="quality"></select>
+        </label>
+        <label class="check-field" data-i18n-title="grounding.title" title="MAI-Image-2.6 can look up real-world entities on Bing before drawing them">
+          <input type="checkbox" id="grounding">
+          <span><span data-i18n="grounding.label">Web grounding</span> <small data-i18n="grounding.hint">MAI only</small></span>
+        </label>
+      </div>
+      <p class="size-note muted" id="sizeNote"></p>
+
+      <fieldset class="models">
+        <legend data-i18n="models.label">Models</legend>
+        <div id="modelPicks" class="model-picks"></div>
+      </fieldset>
+
+      <div class="run-row">
+        <button id="runBtn" class="btn primary" disabled data-i18n="btn.run">Generate on all models</button>
+        <label class="repeat">
+          <span data-i18n="runs.label">Runs</span>
+          <select id="repeat">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </label>
+      </div>
+      <p id="notice" class="notice" role="alert" hidden></p>
+    </section>
+
+    <section class="results-wrap" aria-labelledby="resultsTitle">
+      <div class="results-head">
+        <h2 id="resultsTitle" data-i18n="results.title">Results</h2>
+        <p class="legend" data-i18n-html="results.legend">Time is measured on this server, from request to the full image. Tick each checklist item per image, or let the judge do it; click an image to compare full size.</p>
+        <div class="judge-tools" id="judgeTools" hidden>
+          <label class="check-field">
+            <input type="checkbox" id="autoJudge">
+            <span data-i18n="judge.auto">Judge automatically</span>
+          </label>
+          <button type="button" class="btn small" id="judgeBtn"></button>
+        </div>
+      </div>
+      <div id="score" class="score" hidden></div>
+      <div id="gallery" class="gallery" hidden></div>
+      <p class="empty" id="resultsEmpty" data-i18n-html="results.empty">Pick a scenario and press <b>Generate on all models</b>. Every model gets the same prompt at the same pixel size, in parallel, and the images line up here with their time, checklist score, and cost.</p>
+
+      <section class="protocol" id="protocolSection" aria-labelledby="protocolTitle" hidden>
+        <h2 id="protocolTitle" data-i18n="protocol.title">On the wire</h2>
+        <div id="protocol" class="protocol-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="lightbox" class="lightbox" aria-labelledby="lbCaption">
+    <figure>
+      <img id="lbImg" alt="">
+      <figcaption id="lbCaption"></figcaption>
+    </figure>
+    <button type="button" class="lb-btn lb-prev" id="lbPrev" aria-label="Previous image" data-i18n-aria="lb.prev">‹</button>
+    <button type="button" class="lb-btn lb-next" id="lbNext" aria-label="Next image" data-i18n-aria="lb.next">›</button>
+    <button type="button" class="lb-btn lb-close" id="lbClose" aria-label="Close" data-i18n-aria="lb.close">×</button>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

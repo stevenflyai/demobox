@@ -1,0 +1,70 @@
+[
+  {
+    "id": "gpt-live",
+    "name": "GPT-Live",
+    "tagline": "Full-duplex voice on Azure OpenAI",
+    "description": "Talk over the model and watch it listen while it speaks. A live three-lane timeline shows you, GPT-Live, and the backend model it delegates reasoning and tool calls to.",
+    "dir": "gpt-live",
+    "defaultPort": 3000,
+    "tags": ["Voice", "Realtime", "Azure OpenAI"],
+    "i18n": {
+      "zh": {
+        "name": "GPT-Live",
+        "tagline": "Azure OpenAI 全双工语音",
+        "description": "在模型说话时直接插话，看它边说边听。实时三轨时间线展示你、GPT-Live，以及它委派推理和工具调用的后端模型。",
+        "tags": ["语音", "实时", "Azure OpenAI"]
+      }
+    }
+  },
+  {
+    "id": "decision",
+    "name": "Decision models",
+    "tagline": "Microsoft-Decision-1 · GPT Decisions API · Jev",
+    "description": "Send the same input and typed questions (yes/no, choice, score) to three decision models at once. Compare answers, probabilities, agreement, and latency side by side.",
+    "dir": "decision",
+    "defaultPort": 3001,
+    "tags": ["Decisions", "Classification", "Comparison"],
+    "i18n": {
+      "zh": {
+        "name": "决策模型",
+        "tagline": "Microsoft-Decision-1 · GPT Decisions API · Jev",
+        "description": "把同一段输入和带类型的问题（是/否、选择、评分）同时发给三个决策模型，并排比较答案、概率、一致性和延迟。",
+        "tags": ["决策", "分类", "对比"]
+      }
+    }
+  },
+  {
+    "id": "images",
+    "name": "Image models",
+    "tagline": "GPT-Image-2.5 Flare & Sunburst · MAI-Image-2.6 & Flash",
+    "description": "Send one prompt to four image models on Foundry at the same pixel size. Compare time to image, a checklist score for instruction following, quality (by hand or a blind judge model), and cost per image.",
+    "dir": "images",
+    "defaultPort": 3002,
+    "tags": ["Images", "Generation", "Comparison"],
+    "i18n": {
+      "zh": {
+        "name": "图像模型",
+        "tagline": "GPT-Image-2.5 Flare 与 Sunburst · MAI-Image-2.6 与 Flash",
+        "description": "把同一个提示词以相同像素尺寸发给 Foundry 上的四个图像模型，比较出图耗时、按检查清单评估的指令遵循、图片质量（人工或盲评模型打分）以及单张成本。",
+        "tags": ["图像", "生成", "对比"]
+      }
+    }
+  },
+  {
+    "id": "webiq",
+    "name": "Web IQ",
+    "tagline": "Microsoft Web IQ vs Google (SerpApi) · Tavily · Exa · Brave · Perplexity · Parallel",
+    "description": "Send one query to Microsoft Web IQ and the leading web search APIs for AI, and compare the results side by side: search speed, blind-judged relevance, freshness, content returned, and cost.",
+    "dir": "webiq",
+    "defaultPort": 3003,
+    "tags": ["Web grounding", "Search", "Comparison"],
+    "i18n": {
+      "zh": {
+        "name": "Web IQ",
+        "tagline": "Microsoft Web IQ 对比 Google（SerpApi）· Tavily · Exa · Brave · Perplexity · Parallel",
+        "description": "把同一个查询发给 Microsoft Web IQ 和主流 AI 搜索 API，并排比较检索结果：检索速度、盲评相关度、新鲜度、返回内容量和成本。",
+        "tags": ["联网检索", "搜索", "对比"]
+      }
+    }
+  }
+]

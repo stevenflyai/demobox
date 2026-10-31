@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Decision models</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='16' width='6' height='12' rx='2' fill='%231D4ED8'/%3E%3Crect x='13' y='6' width='6' height='22' rx='2' fill='%23127A5B'/%3E%3Crect x='22' y='11' width='6' height='17' rx='2' fill='%23B4237A'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>if (self !== top) document.documentElement.classList.add('embedded'); // inside the DemoBox hub</script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a class="home" id="home" href="http://localhost:8000/" title="Back to all demos" data-i18n-title="home.title">← DemoBox</a>
+      <h1 data-i18n="doc.title">Decision models</h1>
+      <p class="tagline" data-i18n="brand.tagline">Same input, same questions, three typed answers</p>
+    </div>
+    <ul class="providers" id="providers" aria-label="Providers" data-i18n-aria="providers.label"></ul>
+    <select id="lang" class="lang" aria-label="Interface language" data-i18n-aria="lang.label"></select>
+  </header>
+
+  <main class="layout">
+    <section class="editor" aria-labelledby="editorTitle">
+      <div class="editor-head">
+        <h2 id="editorTitle" data-i18n="editor.title">Scenario</h2>
+        <select id="preset" aria-label="Load a scenario" data-i18n-aria="preset.label"></select>
+      </div>
+
+      <label class="field">
+        <span><span data-i18n="state.label">State</span> <small data-i18n="state.hint">text, or a JSON object</small></span>
+        <textarea id="state" rows="5" spellcheck="false"></textarea>
+      </label>
+
+      <div class="questions-head">
+        <h3 data-i18n="questions.title">Questions</h3>
+        <button type="button" class="link" id="addQuestion" data-i18n="btn.addQuestion">Add question</button>
+      </div>
+      <ol id="questions" class="questions"></ol>
+
+      <div class="run-row">
+        <button id="runBtn" class="btn primary" disabled data-i18n="btn.run">Run on all providers</button>
+        <label class="repeat">
+          <span data-i18n="runs.label">Runs</span>
+          <select id="repeat">
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+          </select>
+        </label>
+      </div>
+      <p id="notice" class="notice" role="alert" hidden></p>
+    </section>
+
+    <section class="results-wrap" aria-labelledby="resultsTitle">
+      <div class="results-head">
+        <h2 id="resultsTitle" data-i18n="results.title">Answers</h2>
+        <p class="legend" data-i18n-html="results.legend">Latency is measured on this server, from request to full response. <span class="seg-key connect"></span> connect is DNS, TCP and TLS on a new connection; <span class="seg-key response"></span> response includes one network round trip.</p>
+        <label class="warm" data-i18n-title="warm.title" title="Ping each endpoint without a key every 20 seconds so runs reuse an open connection. Nothing is billed.">
+          <input type="checkbox" id="warm">
+          <span data-i18n="warm.label">Keep connections warm</span>
+          <small id="warmStatus" class="muted"></small>
+        </label>
+      </div>
+      <div id="results" class="results"></div>
+      <p class="empty" id="resultsEmpty" data-i18n-html="results.empty">Pick a scenario and press <b>Run on all providers</b>. Each provider gets the same state and questions in its own wire format, and the answers line up here row by row.</p>
+
+      <section class="protocol" id="protocolSection" aria-labelledby="protocolTitle" hidden>
+        <h2 id="protocolTitle" data-i18n="protocol.title">On the wire</h2>
+        <div id="protocol" class="protocol-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <template id="questionTpl">
+    <li class="question">
+      <div class="q-row">
+        <input class="q-name" aria-label="Question name" data-i18n-aria="q.name" spellcheck="false" placeholder="name">
+        <select class="q-type" aria-label="Question type" data-i18n-aria="q.type">
+          <option value="yesno" data-i18n="type.yesno">Yes / no</option>
+          <option value="choice" data-i18n="type.choice">Choice</option>
+          <option value="score" data-i18n="type.score">Score</option>
+        </select>
+        <button type="button" class="icon-btn q-remove" aria-label="Remove question" title="Remove question" data-i18n-aria="q.remove" data-i18n-title="q.remove">×</button>
+      </div>
+      <textarea class="q-instructions" rows="2" aria-label="Instructions" placeholder="What should the model decide?" data-i18n-aria="q.instructions" data-i18n-placeholder="q.instructionsPlaceholder"></textarea>
+      <label class="q-options-wrap">
+        <span class="q-options-label"></span>
+        <textarea class="q-options" rows="3" spellcheck="false"></textarea>
+      </label>
+    </li>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
