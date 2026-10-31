@@ -3,12 +3,13 @@
 .env.*
 !.env.example
 
-# Dependencies
-node_modules/
+# Python environment and caches
+.venv/
+__pycache__/
+.pytest_cache/
 
 # Logs
 *.log
-npm-debug.log*
 
 # OS and editor files
 .DS_Store

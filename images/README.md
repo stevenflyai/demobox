@@ -23,13 +23,13 @@ Flare is OpenAI's fast default and Sunburst its precision tier. MAI-Image-2.6 is
    ```
    If both families are in the same resource, put the same values in both. If your deployment names differ from the model names, set `GPT_IMAGE_FLARE_MODEL`, `GPT_IMAGE_SUNBURST_MODEL`, `MAI_IMAGE_MODEL`, `MAI_IMAGE_FLASH_MODEL`. A model left unconfigured shows as *not configured*, and the others still run.
 2. Optional: set `JUDGE_MODEL` to a vision-capable deployment in the GPT-Image resource (default `gpt-5.5`) to grade images automatically.
-3. Start the server (Node 18.17+, no npm packages needed):
+3. Start the server (Python 3.10+; `uv run` installs the dependencies the first time):
    ```
-   npm start
+   uv run server.py
    ```
 4. Open **http://localhost:3002**, pick a scenario, and press **Generate on all models**.
 
-Or start it from the hub at the repo root (`npm start` there, then **Start** on the card).
+Or start it from the hub at the repo root (`./start.sh` there, then **Start** on the card).
 
 ## What to show
 
@@ -48,9 +48,9 @@ Or start it from the hub at the repo root (`npm start` there, then **Start** on 
 | Variable | Default | Notes |
 |---|---|---|
 | `GPT_IMAGE_BASE_URL` | — | Resource for Flare and Sunburst. `*.openai.azure.com`, `*.services.ai.azure.com`, `*.cognitiveservices.azure.com`, or a project URL all work; the server calls `/openai/v1/images/generations`. A full URL ending in `/images/generations` is used as-is. |
-| `GPT_IMAGE_API_KEY` | — | Stays in the Node process. |
+| `GPT_IMAGE_API_KEY` | — | Stays in the server process. |
 | `MAI_BASE_URL` | — | Resource for MAI-Image-2.6 and 2.6-Flash. Calls always go to `*.services.ai.azure.com/mai/v1/images/generations`; another address of the same resource is switched automatically. |
-| `MAI_API_KEY` | — | Stays in the Node process. |
+| `MAI_API_KEY` | — | Stays in the server process. |
 | `GPT_IMAGE_AUTH_HEADER`, `MAI_AUTH_HEADER` | `auto` | `api-key` header for `*.azure.com`, `Bearer` otherwise. Override with `api-key` or `bearer` (e.g. an Entra ID token). |
 | `GPT_IMAGE_FLARE_MODEL` … `MAI_IMAGE_FLASH_MODEL` | the model names | The **deployment name** in Foundry. |
 | `<PREFIX>_BASE_URL`, `_API_KEY`, `_AUTH_HEADER` | the `GPT_IMAGE_*` or `MAI_*` value | Per-model override for a model in yet another resource. Prefixes: `GPT_IMAGE_FLARE`, `GPT_IMAGE_SUNBURST`, `MAI_IMAGE`, `MAI_IMAGE_FLASH`, and `JUDGE` (falls back to `GPT_IMAGE_*`). |
@@ -71,7 +71,7 @@ Or start it from the hub at the repo root (`npm start` there, then **Start** on 
 ## Files
 
 ```
-server.js            config, request mapping, POST /api/generate, POST /api/judge, GET /api/images/:id, GET /api/config
+server.py            config, request mapping, POST /api/generate, POST /api/judge, GET /api/images/:id, GET /api/config
 public/index.html    page
 public/app.js        prompt editor, parallel runs, scoreboard, image cards, checklist, lightbox, wire view
 public/scenarios.js  preset prompts and checklists (edit or add your own here)

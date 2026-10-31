@@ -26,7 +26,7 @@ A browser demo that sends **one query to Microsoft Web IQ and the leading web se
    GPT_DECISION_BASE_URL=...  GPT_DECISION_API_KEY=...
    JEV_API_KEY=...
    ```
-2. `npm start` (Node 18.17+, no npm packages needed), then open **http://localhost:3003**. Or start it from the DemoBox hub.
+2. `uv run server.py` (Python 3.10+; `uv run` installs the dependencies the first time), then open **http://localhost:3003**. Or start it from the DemoBox hub.
 
 ## What to show
 
@@ -92,18 +92,19 @@ A browser demo that sends **one query to Microsoft Web IQ and the leading web se
 
 ## Tests
 
-Run the relevance regression tests from this directory:
+Run the relevance regression tests from the repo root:
 
 ```bash
-node --test relevance.test.js
+uv run pytest
 ```
 
-The tests use isolated configuration and mocked judge responses without reading `.env` or calling external APIs. They cover full-excerpt deduplication, provider-order independence, metadata differences, all judge adapters, invalid or incomplete grades, parallel batches, and the scoring weights.
+The tests use isolated configuration and mocked judge responses without reading `.env` or calling external APIs. They cover full-excerpt deduplication, provider-order independence, metadata differences, all judge adapters, invalid or incomplete grades, and parallel batches.
 
 ## Files
 
 ```
-server.js            config, one adapter per search API, POST /api/search, /api/relevance, /api/speedtest
+server.py            config, one adapter per search API, POST /api/search, /api/relevance, /api/speedtest
+test_relevance.py    pytest regressions for relevance dedup, judge adapters, and grade validation
 public/index.html    page
 public/app.js        query editor, parallel runs, leaderboard, speed chart, result cards, wire view
 public/scenarios.js  preset questions (edit or add your own here)

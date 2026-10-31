@@ -71,7 +71,7 @@ const STRINGS = {
     'log.count': '{n} events',
     'log.audio': ', audio chunks {sent} sent / {received} received',
 
-    'notice.unreachable': 'Could not reach the demo server. Is "npm start" running?',
+    'notice.unreachable': 'Could not reach the demo server. Is "uv run server.py" running?',
     'notice.fixEnv': '{problems}. Edit gpt-live/.env, then restart the server.',
     'notice.micBlocked': 'Microphone access was blocked. Allow the microphone for this page and try again.',
     'notice.cancelled': 'Cancelled before the session started.',
@@ -184,7 +184,7 @@ const STRINGS = {
     'log.count': '{n} 个事件',
     'log.audio': '，音频块 已发送 {sent} / 已接收 {received}',
 
-    'notice.unreachable': '无法连接演示服务器。请确认 "npm start" 正在运行。',
+    'notice.unreachable': '无法连接演示服务器。请确认 "uv run server.py" 正在运行。',
     'notice.fixEnv': '{problems}。请编辑 gpt-live/.env，然后重启服务器。',
     'notice.micBlocked': '麦克风权限被阻止。请允许此页面使用麦克风后重试。',
     'notice.cancelled': '会话开始前已取消。',

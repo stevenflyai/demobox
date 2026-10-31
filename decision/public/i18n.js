@@ -94,7 +94,7 @@ const STRINGS = {
     'provider.notConfigured': 'not configured',
     'provider.setHint': 'Set {vars} in decision/.env',
 
-    'notice.unreachable': 'The demo server is not reachable. Start it with npm start in decision/.',
+    'notice.unreachable': 'The demo server is not reachable. Start it with uv run server.py in decision/.',
     'notice.noProvider': 'No provider is configured yet. Fill in URLs and keys in decision/.env, then restart the server.',
     'notice.noState': 'Add some state for the models to judge.',
     'notice.noQuestions': 'Add at least one question.',
@@ -199,7 +199,7 @@ const STRINGS = {
     'provider.notConfigured': '未配置',
     'provider.setHint': '在 decision/.env 中设置 {vars}',
 
-    'notice.unreachable': '无法连接演示服务器。请在 decision/ 中运行 npm start。',
+    'notice.unreachable': '无法连接演示服务器。请在 decision/ 中运行 uv run server.py。',
     'notice.noProvider': '还没有配置任何模型。请在 decision/.env 中填写地址和 key，然后重启服务器。',
     'notice.noState': '请填写要让模型判断的输入。',
     'notice.noQuestions': '请至少添加一个问题。',

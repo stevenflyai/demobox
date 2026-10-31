@@ -4,7 +4,7 @@
 
 Small, self-contained browser demos of AI services, built for live customer and internal demos. Each demo shows one service's distinctive behavior on a single localhost page, and a hub starts, stops, and opens them all from one place.
 
-Fill in a key, run `npm start`, open the page.
+Fill in a key, run `./start.sh`, open the page.
 
 ## Demos
 
@@ -19,7 +19,7 @@ Each demo's README has its setup, a "What to show" script, settings, and trouble
 
 ## Quick start
 
-Requires **Node.js 18.17+**. Most demos have no npm dependencies; `gpt-live` needs one (`ws`), which the hub installs the first time you start it.
+Requires **Python 3.10+** and, ideally, [uv](https://docs.astral.sh/uv/). The servers are FastAPI apps; `uv run` creates `.venv` and installs the dependencies (FastAPI, uvicorn, httpx, websockets) the first time. Without uv, run `python3 -m pip install -e .` once.
 
 ```bash
 git clone <this repo> demobox && cd demobox
@@ -33,10 +33,10 @@ cp webiq/.env.example webiq/.env
 Other ways to start:
 
 ```bash
-npm start                  # hub only; start demos from the page
-npm run start:all          # hub + every demo at once
-./start.sh --all --open    # same, after a Node version check, and open the hub
-cd webiq && npm start      # any demo on its own
+./start.sh                 # hub only; start demos from the page
+./start.sh --all --open    # hub + every demo at once, and open the hub
+uv run hub/server.py       # the hub without the launcher's checks
+cd webiq && uv run server.py   # any demo on its own
 ```
 
 The hub shows each demo as **Running**, **Running · needs setup** (started, but keys are missing), or **Stopped**. A demo with only some providers configured still runs; the rest show as *not configured*. The pages work in English and Chinese.
@@ -51,10 +51,12 @@ Keys stay on the server. The browser only talks to `localhost`; each demo's serv
 
 ```
 demobox/
-├── start.sh        launcher with a Node version check (--all, --open)
+├── start.sh        launcher with a Python check (--all, --open)
+├── pyproject.toml  dependencies for every server
 ├── demos.json      registry the hub reads
+├── src/demokit/    shared server code: .env settings, FastAPI skeleton, timed calls to the services
 ├── hub/            launcher UI on port 8000
-├── gpt-live/       each demo: server.js, public/, .env.example, README.md
+├── gpt-live/       each demo: server.py, public/, .env.example, README.md
 ├── decision/
 ├── images/
 └── webiq/
@@ -65,9 +67,9 @@ demobox/
 The Web IQ demo has relevance-scoring regression tests. They use mocked responses, so they need no keys or network:
 
 ```bash
-cd webiq && node --test relevance.test.js
+uv run pytest
 ```
 
 ## Contributing
 
-[AGENTS.md](AGENTS.md) has the conventions (plain Node with no build step, the server skeleton, the required `/api/config` route, the shared look), the steps for adding a demo, and the checks to run before calling a change done.
+[AGENTS.md](AGENTS.md) has the conventions (FastAPI servers with a static page and no build step, the shared `demokit`, the required `/api/config` route, the shared look), the steps for adding a demo, and the checks to run before calling a change done.

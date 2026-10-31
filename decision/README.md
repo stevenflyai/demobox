@@ -23,13 +23,13 @@ Decision models don't write prose. They return a probability (yes/no), one optio
 
    JEV_API_KEY=...
    ```
-2. Start the server (Node 18.17+, no npm packages needed):
+2. Start the server (Python 3.10+; `uv run` installs the dependencies the first time):
    ```
-   npm start
+   uv run server.py
    ```
 3. Open **http://localhost:3001**, pick a scenario, and press **Run on all providers**.
 
-Or start it from the hub at the repo root (`npm start` there, then **Start** on the card).
+Or start it from the hub at the repo root (`./start.sh` there, then **Start** on the card).
 
 ## What to show
 
@@ -50,7 +50,7 @@ Or start it from the hub at the repo root (`npm start` there, then **Start** on 
 | Choice | `{ "type": "choice", "criteria": { value: description } }` | `{ "type": "choice", "choices": [{ value, description }] }` |
 | Score | `{ "type": "score", "criteria": ["level", …] }` (lowest first; descriptions folded in as `"label: description"`) | `{ "type": "score", "levels": [{ label, description }] }` |
 
-Answers are normalized on the server (`normalizeAnswers` in `server.js`) so the page renders one shape for everyone.
+Answers are normalized on the server (`normalize_answers` in `server.py`) so the page renders one shape for everyone.
 
 ## Settings (`.env`)
 
@@ -59,7 +59,7 @@ Each provider has the same four variables, with prefix `MS_DECISION_`, `GPT_DECI
 | Variable | Default | Notes |
 |---|---|---|
 | `*_BASE_URL` | Jev: `https://api.typesafe.ai` | Paste the endpoint from the portal. The server adds the right path. A full URL ending in `/systemone` or `/decisions` is used as-is. |
-| `*_API_KEY` | — | Required. Stays in the Node process. |
+| `*_API_KEY` | — | Required. Stays in the server process. |
 | `*_MODEL` | `Microsoft-Decision-1` / `gpt-6-luna` / `jev-latest` | On Azure, this is the **deployment name**. |
 | `*_AUTH_HEADER` | `auto` | `api-key` header for `*.azure.com`, `Bearer` otherwise. Override with `api-key` or `bearer`. |
 | `PORT` | `3001` | |
@@ -76,7 +76,7 @@ Each provider has the same four variables, with prefix `MS_DECISION_`, `GPT_DECI
 ## Files
 
 ```
-server.js            config, provider mapping, POST /api/decide, POST /api/warm, GET /api/config
+server.py            config, provider mapping, POST /api/decide, POST /api/warm, GET /api/config
 public/index.html    page
 public/app.js        scenario editor, parallel runs, results grid, wire view
 public/scenarios.js  preset scenarios (edit or add your own here)

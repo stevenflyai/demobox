@@ -18,12 +18,25 @@ for arg in "$@"; do
   esac
 done
 
-if ! command -v node >/dev/null 2>&1; then
-  echo "Node.js 18.17+ is required: https://nodejs.org" >&2
+# With uv, `uv run` creates .venv and installs the dependencies on first use.
+# Without it, use a Python 3.10+ where `pip install -e .` has been run.
+if command -v uv >/dev/null 2>&1; then
+  RUN=(uv run --quiet python)
+elif [ -x .venv/bin/python ]; then
+  RUN=(.venv/bin/python)
+elif command -v python3 >/dev/null 2>&1; then
+  RUN=(python3)
+else
+  echo "Python 3.10+ is required. Install uv (https://docs.astral.sh/uv/) or Python (https://www.python.org)." >&2
   exit 1
 fi
-if ! node -e 'const [a,b]=process.versions.node.split(".").map(Number); process.exit(a>18||(a===18&&b>=17)?0:1)'; then
-  echo "Node.js 18.17+ is required (found $(node -v))." >&2
+
+if ! "${RUN[@]}" -c 'import sys; sys.exit(sys.version_info < (3, 10))'; then
+  echo "Python 3.10+ is required (found $("${RUN[@]}" -V 2>&1))." >&2
+  exit 1
+fi
+if ! "${RUN[@]}" -c 'import demokit, fastapi, uvicorn, httpx, websockets' 2>/dev/null; then
+  echo "The dependencies are not installed. Run: uv sync   (or: python3 -m pip install -e .)" >&2
   exit 1
 fi
 
@@ -44,4 +57,4 @@ if [ -n "$OPEN" ]; then
 fi
 
 # exec so Ctrl-C reaches the hub, which stops every demo it started.
-exec node hub/server.js $ALL
+exec "${RUN[@]}" hub/server.py $ALL

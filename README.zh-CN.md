@@ -4,7 +4,7 @@
 
 一组小巧、独立的 AI 服务浏览器演示，用于客户现场和内部演示。每个演示在一个 localhost 页面上展示一项服务的独特能力；中控台（hub）可以在同一个页面里启动、停止和打开所有演示。
 
-填好密钥，运行 `npm start`，打开页面即可。
+填好密钥，运行 `./start.sh`，打开页面即可。
 
 ## 演示列表
 
@@ -19,7 +19,7 @@
 
 ## 快速开始
 
-需要 **Node.js 18.17+**。大多数演示没有 npm 依赖；`gpt-live` 需要一个依赖（`ws`），中控台会在第一次启动它时自动安装。
+需要 **Python 3.10+**，推荐安装 [uv](https://docs.astral.sh/uv/)。服务器基于 FastAPI；第一次运行 `uv run` 时会自动创建 `.venv` 并安装依赖（FastAPI、uvicorn、httpx、websockets）。不使用 uv 时，先运行一次 `python3 -m pip install -e .`。
 
 ```bash
 git clone <本仓库地址> demobox && cd demobox
@@ -33,10 +33,10 @@ cp webiq/.env.example webiq/.env
 其他启动方式：
 
 ```bash
-npm start                  # 只启动中控台，在页面上启动各个演示
-npm run start:all          # 中控台 + 全部演示一起启动
-./start.sh --all --open    # 同上，先检查 Node 版本，再打开中控台
-cd webiq && npm start      # 单独运行任意一个演示
+./start.sh                 # 只启动中控台，在页面上启动各个演示
+./start.sh --all --open    # 中控台 + 全部演示一起启动，并打开中控台
+uv run hub/server.py       # 不经启动脚本检查，直接运行中控台
+cd webiq && uv run server.py   # 单独运行任意一个演示
 ```
 
 中控台会把每个演示标记为**运行中**、**运行中 · 需要配置**（已启动但缺少密钥）或**已停止**。只配置了部分服务商的演示也能运行，未配置的会显示为*未配置*。页面支持中文和英文。
@@ -51,10 +51,12 @@ cd webiq && npm start      # 单独运行任意一个演示
 
 ```
 demobox/
-├── start.sh        启动脚本，含 Node 版本检查（--all、--open）
+├── start.sh        启动脚本，含 Python 检查（--all、--open）
+├── pyproject.toml  所有服务器的依赖
 ├── demos.json      中控台读取的演示注册表
+├── src/demokit/    共享服务器代码：.env 设置、FastAPI 骨架、对外部服务的计时调用
 ├── hub/            中控台页面，端口 8000
-├── gpt-live/       每个演示：server.js、public/、.env.example、README.md
+├── gpt-live/       每个演示：server.py、public/、.env.example、README.md
 ├── decision/
 ├── images/
 └── webiq/
@@ -65,9 +67,9 @@ demobox/
 Web IQ 演示带有相关性评分的回归测试。测试使用模拟响应，不需要密钥或网络：
 
 ```bash
-cd webiq && node --test relevance.test.js
+uv run pytest
 ```
 
 ## 参与开发
 
-开发约定（纯 Node、无构建步骤、服务器代码结构、必需的 `/api/config` 接口、统一的界面风格）、新增演示的步骤，以及提交前的检查项，请见 [AGENTS.md](AGENTS.md)（英文）。
+开发约定（FastAPI 服务器加静态页面、无构建步骤、共享的 `demokit`、必需的 `/api/config` 接口、统一的界面风格）、新增演示的步骤，以及提交前的检查项，请见 [AGENTS.md](AGENTS.md)（英文）。

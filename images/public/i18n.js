@@ -119,7 +119,7 @@ const STRINGS = {
     'provider.notConfigured': 'not configured',
     'provider.setHint': 'Set {vars} in images/.env',
 
-    'notice.unreachable': 'The demo server is not reachable. Start it with npm start in images/.',
+    'notice.unreachable': 'The demo server is not reachable. Start it with uv run server.py in images/.',
     'notice.noProvider': 'No model is configured yet. Fill in GPT_IMAGE_BASE_URL / GPT_IMAGE_API_KEY and MAI_BASE_URL / MAI_API_KEY in images/.env, then restart the server.',
     'notice.noPrompt': 'Write a prompt first.',
     'notice.noModels': 'Pick at least one model.',
@@ -243,7 +243,7 @@ const STRINGS = {
     'provider.notConfigured': '未配置',
     'provider.setHint': '在 images/.env 中设置 {vars}',
 
-    'notice.unreachable': '无法连接演示服务器。请在 images/ 中运行 npm start。',
+    'notice.unreachable': '无法连接演示服务器。请在 images/ 中运行 uv run server.py。',
     'notice.noProvider': '还没有配置任何模型。请在 images/.env 中填写 GPT_IMAGE_BASE_URL / GPT_IMAGE_API_KEY 和 MAI_BASE_URL / MAI_API_KEY，然后重启服务器。',
     'notice.noPrompt': '请先填写提示词。',
     'notice.noModels': '请至少选择一个模型。',

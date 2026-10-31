@@ -9,7 +9,7 @@ const STRINGS = {
     'nav.label': 'Microsoft Foundry Demos',
 
     'add.title': 'Add a demo',
-    'add.body': 'Create a folder with a <code>package.json</code> whose <code>npm start</code> serves a page and <code>GET /api/config</code> returning <code>{ "ready": true }</code>, then add an entry to <code>demos.json</code>. See <code>AGENTS.md</code> for the full checklist.',
+    'add.body': 'Create a folder with a <code>server.py</code> that serves a page and <code>GET /api/config</code> returning <code>{ "ready": true }</code>, then add an entry to <code>demos.json</code>. See <code>AGENTS.md</code> for the full checklist.',
 
     'btn.reload': 'Reload demo',
     'btn.newTab': 'Open in a new tab',
@@ -32,7 +32,7 @@ const STRINGS = {
     'status.exited': 'Exited with code {code}',
     'status.stopped': 'Stopped',
 
-    'notice.unreachable': 'The hub server is not reachable. Start it with npm start in the demobox folder.',
+    'notice.unreachable': 'The hub server is not reachable. Start it with ./start.sh in the demobox folder.',
   },
 
   zh: {
@@ -42,7 +42,7 @@ const STRINGS = {
     'nav.label': 'Microsoft Foundry 演示',
 
     'add.title': '添加演示',
-    'add.body': '新建一个文件夹，其中 <code>package.json</code> 的 <code>npm start</code> 提供一个页面，并实现返回 <code>{ "ready": true }</code> 的 <code>GET /api/config</code>，然后在 <code>demos.json</code> 中添加一项。完整清单见 <code>AGENTS.md</code>。',
+    'add.body': '新建一个文件夹，其中 <code>server.py</code> 提供一个页面，并实现返回 <code>{ "ready": true }</code> 的 <code>GET /api/config</code>，然后在 <code>demos.json</code> 中添加一项。完整清单见 <code>AGENTS.md</code>。',
 
     'btn.reload': '重新加载演示',
     'btn.newTab': '在新标签页中打开',
@@ -65,7 +65,7 @@ const STRINGS = {
     'status.exited': '已退出，代码 {code}',
     'status.stopped': '已停止',
 
-    'notice.unreachable': '无法连接 Hub 服务器。请在 demobox 文件夹中运行 npm start。',
+    'notice.unreachable': '无法连接 Hub 服务器。请在 demobox 文件夹中运行 ./start.sh。',
   },
 };
 

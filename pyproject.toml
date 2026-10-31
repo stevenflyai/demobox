@@ -1,0 +1,27 @@
+[project]
+name = "demobox"
+version = "2.0.0"
+description = "Hub for quick AI service demos. Each demo lives in its own folder; the hub lists, starts, and links them."
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "httpx>=0.27",
+    "websockets>=14",
+    "tzdata; sys_platform == 'win32'",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Only the shared kit is a package (src/ layout, so the demo folders never become importable);
+# each demo's server.py is a script that imports it.
+[tool.hatch.build.targets.wheel]
+packages = ["src/demokit"]
+
+[tool.pytest.ini_options]
+testpaths = ["webiq"]

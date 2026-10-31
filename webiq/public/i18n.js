@@ -124,7 +124,7 @@ const STRINGS = {
     'age.h': '{n} h ago',
     'age.d': '{n} d ago',
 
-    'notice.unreachable': 'The demo server is not reachable. Start it with npm start in webiq/.',
+    'notice.unreachable': 'The demo server is not reachable. Start it with uv run server.py in webiq/.',
     'notice.noProvider': 'No search service is configured yet. Fill in WEBIQ_API_KEY (and any competitor keys) in webiq/.env, then restart the server.',
     'notice.noQuery': 'Write a question first.',
     'notice.noLanes': 'Pick at least one service to compare.',
@@ -253,7 +253,7 @@ const STRINGS = {
     'age.h': '{n} 小时前',
     'age.d': '{n} 天前',
 
-    'notice.unreachable': '无法连接演示服务器。请在 webiq/ 中运行 npm start。',
+    'notice.unreachable': '无法连接演示服务器。请在 webiq/ 中运行 uv run server.py。',
     'notice.noProvider': '还没有配置任何检索服务。请在 webiq/.env 中填写 WEBIQ_API_KEY（以及竞品的 key），然后重启服务器。',
     'notice.noQuery': '请先填写问题。',
     'notice.noLanes': '请至少选择一个参与对比的服务。',

@@ -11,14 +11,13 @@ The page makes both visible on a live three-lane timeline: **You**, **GPT-Live**
    BASE_URL=https://<your-resource>.openai.azure.com
    API_KEY=<key from Azure portal → Keys and Endpoint>
    ```
-2. Start the server (Node 18.17+):
+2. Start the server (Python 3.10+; `uv run` installs the dependencies the first time):
    ```
-   npm install
-   npm start
+   uv run server.py
    ```
 3. Open **http://localhost:3000** in Chrome or Edge, allow the microphone, and press **Start conversation**.
 
-The key stays in the Node process. The browser only talks to `localhost`.
+The key stays in the server process. The browser only talks to `localhost`.
 
 ### Azure prerequisites
 
@@ -74,7 +73,7 @@ With the WebSocket relay, use headphones so GPT-Live doesn't hear itself.
 ## Files
 
 ```
-server.js            config, POST /api/session (WebRTC), WS /live (relay)
+server.py            config, POST /api/session (WebRTC), WS /live (relay)
 public/index.html    page
 public/app.js        session client, timeline, transcripts, delegation + tools
 public/pcm-capture.js  AudioWorklet: mic → PCM16 24 kHz
